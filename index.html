@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Agenda Multicapas</title>
+</head>
+<body>
+
+<h2>Agenda</h2>
+
+<input type="text" id="nombre" placeholder="Nombre">
+<input type="text" id="telefono" placeholder="Teléfono">
+<button onclick="agregar()">Agregar</button>
+
+<ul id="lista"></ul>
+
+<script>
+
+const API = "http://localhost:3000/contactos";
+
+function cargar() {
+    fetch(API)
+    .then(res => res.json())
+    .then(data => {
+        const lista = document.getElementById("lista");
+        lista.innerHTML = "";
+        data.forEach(c => {
+            lista.innerHTML += `<li>${c.nombre} - ${c.telefono}</li>`;
+        });
+    });
+}
+
+function agregar() {
+    const nombre = document.getElementById("nombre").value;
+    const telefono = document.getElementById("telefono").value;
+
+    fetch(API, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            id: Date.now(),
+            nombre,
+            telefono
+        })
+    })
+    .then(res => res.json())
+    .then(() => cargar());
+}
+
+cargar();
+
+</script>
+
+</body>
+</html>
