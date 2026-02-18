@@ -4,25 +4,24 @@ const cors = require("cors");
 const app = express();
 app.use(express.json());
 
-// 🔥 AQUÍ ACTIVAMOS CORS
+
 app.use(cors({
     origin: "http://localhost:5500"
 }));
 
 let contactos = [];
 
-// GET - Obtener contactos
+
 app.get("/contactos", (req, res) => {
     res.json(contactos);
 });
 
-// POST - Agregar contacto
 app.post("/contactos", (req, res) => {
     const nuevo = req.body;
     contactos.push(nuevo);
 
     console.log("Contactos actuales:");
-    console.log(contactos); // 👈 Agrega esto
+    console.log(contactos);
 
     res.json({ mensaje: "Contacto agregado" });
 });
